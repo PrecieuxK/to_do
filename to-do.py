@@ -1,30 +1,17 @@
 tasks = [] 
-file = open("tasks.txt","w")
-
-def readfromFile():
-    try:
-        with open("tasks.txt", "r") as file:
-            for item in file:
-                tasks.append(item.strip())
-    except FileNotFoundError:
-        pass
-
-def addtoFile():
-    with open("tasks.txt", "w") as file:
-        for item in tasks:
-            file.write(item + "\n")
 
 def addTask(task: str):
+    if task not in tasks:
         tasks.append(task)
         print(tasks)
-        addtoFile()
+    else:
+        print(f"Task {task} already exists.")
 
 def removeTask(task: int):
     try:
         if 0 <= task < len(tasks):
             tasks.pop(task)
             print(tasks)
-            addtoFile()
         else:
             print("Invalid number.")
     except ValueError:
@@ -32,14 +19,12 @@ def removeTask(task: int):
 
 def showTask():
     print(tasks)
-
-def clearFile():
-    with open("tasks.txt", "w"):
-        pass
+def clearTask():
+    global tasks
     tasks = []
-    print("Cleared")
-    
+
 print("Welcome to the to do list. ")
+clearTask()
 while True:
     print("1. Add\n")
     print("2. Remove\n")
@@ -58,6 +43,7 @@ while True:
     elif action == "4":
         exit()
     elif action == "5":
-        clearFile()
+        clearTask
+        print("Cleared")
     else:
         print("Try again.")
